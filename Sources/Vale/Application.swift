@@ -7,24 +7,47 @@ import Gtk
 
 
 #if os(macOS)
-typealias BaseApplication = NSApplication
+public typealias BaseApplication = NSApplication
 #else
-typealias BaseApplication = Gtk.Application
+public typealias BaseApplication = Gtk.Application
 #endif
 
-public struct Application {
-    let app: BaseApplication;
+@objc public class Application : NSObject {
+    public let app: BaseApplication;
+
+    private init(app: BaseApplication) {
+        self.app = app
+    }
     
-    static func run(id: String, initialize: (Application) -> Void) {
+    public static func run(_ id: String, initialize: (inout Application) -> Void) {
         #if os(macOS)
-        let app = Application(app: NSApplication.shared)
-        initialize(app)
+        var app = Application(app: NSApplication.shared)
         app.app.setActivationPolicy(.regular)
+        initialize(&app)
+        app.app.activate(ignoringOtherApps: true)
         app.app.run()
         #else
         Gtk.Application.run(startupHandler: nil) { app in
-            initialize(app)
+            initialize(&app)
         }
         #endif
+    }
+
+    @objc public func quit(_ sender: Any?) -> Void {
+        print("Quitting")
+        #if os(macOS)
+        app.terminate(sender)
+        #else
+        print("Not Mac?")
+        #endif
+    }
+
+    public var menu: BaseMenuType? {
+        get {
+            return app.mainMenu
+        }
+        set(newMenu) {
+            app.mainMenu = newMenu
+        }
     }
 }

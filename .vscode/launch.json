@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug vale-widget-factory",
+            "program": "${workspaceFolder:vale}/.build/debug/vale-widget-factory",
+            "args": [],
+            "cwd": "${workspaceFolder:vale}",
+            "preLaunchTask": "swift: Build Debug vale-widget-factory"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Release vale-widget-factory",
+            "program": "${workspaceFolder:vale}/.build/release/vale-widget-factory",
+            "args": [],
+            "cwd": "${workspaceFolder:vale}",
+            "preLaunchTask": "swift: Build Release vale-widget-factory"
+        }
+    ]
+}
