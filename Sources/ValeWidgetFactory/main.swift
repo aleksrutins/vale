@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Aleks Rutins on 11/18/22.
 //
@@ -15,12 +15,10 @@ Application.run("com.rutins.ValeWidgetFactory") { app in
         MenuItem(title: "Vale Widget Factory") {
             MenuItem(title: "Quit", action: Selectors.quit, keyEquivalent: "q")
         }
-        MenuItem(title: "File") 
+        MenuItem(title: "File")
     }
     app.app.mainMenu = menu
-    let window = NSWindow(contentRect:NSMakeRect(0, 0, 200, 200),
-                          styleMask: .closable.union(.titled).union(.resizable).union(.miniaturizable), backing: .buffered, defer: false)
-    window.title = "Vale Widget Factory"
-    window.makeKeyAndOrderFront(nil)
-    window.contentView?.addSubview(NSButton(title: "Close", target: app, action: #selector(app.quit(_:))))
+    let window = Window(title: "Vale Widget Factory", style: .normal)
+    window.show()
+    window.add(NSButton(title: "Close", target: app, action: #selector(app.quit(_:))))
 }

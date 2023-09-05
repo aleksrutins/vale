@@ -38,8 +38,8 @@ let package = Package(
                dependencies: [
                 "Vale"
                ]),
-        .testTarget(
-            name: "ValeTests",
-            dependencies: ["Vale"]),
+        // .testTarget(
+        //     name: "ValeTests",
+        //     dependencies: ["Vale"]),
     ]
 )

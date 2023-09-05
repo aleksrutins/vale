@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Aleks Rutins on 11/19/22.
 //
@@ -22,14 +22,34 @@ public struct Window {
     #else
     public typealias InternalType = Gtk.WindowRef
     #endif
-    
+
     public let internalWnd: InternalType
-    
-    init(title: String, style: WindowStyle) {
+
+    public init(title: String, style: WindowStyle) {
         #if os(macOS)
         internalWnd = NSWindow()
         internalWnd.title = title
-        
+        internalWnd.styleMask =
+              style == .insetTitleBar ? .closable.union(.unifiedTitleAndToolbar).union(.resizable).union(.miniaturizable)
+            : style == .nonResizable ? .closable.union(.titled).union(.miniaturizable)
+            : style == .closeOnly ? .closable.union(.titled)
+            : style == .noControls ? .titled
+            : style == .hideTitle ? .closable.union(.resizable).union(.miniaturizable)
+            : .closable.union(.titled).union(.resizable).union(.miniaturizable);
+        #else
+        #endif
+    }
+
+    public func show() {
+        #if os(macOS)
+        internalWnd.makeKeyAndOrderFront(nil)
+        #else
+        #endif
+    }
+
+    public func add(_ widget: InternalWidget) {
+        #if os(macOS)
+        internalWnd.contentView?.addSubview(widget)
         #else
         #endif
     }
